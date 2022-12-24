@@ -1,0 +1,42 @@
+html {
+    height: 100%;
+}
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+.content_box {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+}
+.inline_button{
+    display: flex;
+    flex-direction: row ;
+    justify-content: center;
+}
+.btn{
+    transition: box-shadow 0.5s;
+}
+.btn:hover{
+    box-shadow: 5px 3px #6f6f6f;
+}
+.small-danger{
+    color: #ff4545;
+}
+.small-warning{
+    color: #ffaa18;
+}
+.small-success{
+    color: #01cd0a;
+}
+
+.col_component{
+    display: flex;
+    flex-direction: column;
+}
