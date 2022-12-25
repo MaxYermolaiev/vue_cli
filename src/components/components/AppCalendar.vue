@@ -1,18 +1,18 @@
 <template>
     <div class="date">
         <label>
-            <div v-if="update_start_date">{{`Old start date ${update_start_date}`}}</div>
+            <div v-if="props?.start"><small>{{`Old start date ${props?.start}`}}</small></div>
             <input :v-model="start_date" type="date" name="start" @change="select('start',$event)"/>
-            <small v-if="start_date===null&&pageState.startError===false">Select action beginning date</small>
+            <small class="small-warning" v-if="start_date===null&&pageState.startError===false">Select action beginning date</small>
             <small class="small-danger" v-else-if="start_date===null&&pageState.startError===true">Selected date can not
                 be older current date</small>
             <small class="small-success" v-else>Start date is OK</small>
         </label>
 
         <label v-if="!pageState.startError&&start_date">
-            <div v-if="update_end_date">{{`Old end date ${update_end_date}`}}</div>
+            <div v-if="props?.end"><small>{{`Old end date ${props?.end}`}}</small></div>
             <input :v-model="end_date" type="date" name="end" @change="select('end',$event)"/>
-            <small v-if="end_date===null&&pageState.endError===false">Select action complete date</small>
+            <small class="small-warning" v-if="end_date===null&&pageState.endError===false">Select action complete date</small>
             <small class="small-danger" v-else-if="end_date===null&&pageState.endError===true">
                 Selected date should be start on nex date after start date!</small>
             <small class="small-success" v-else>End date is OK</small>
@@ -23,19 +23,7 @@
 <script>
     export default {
         name: "AppCalendar",
-        props: {
-            update_start_date: {
-                type: [Date, Boolean],
-                default() {
-                    return false;
-                }
-            }, update_end_date: {
-                type: [Date, Boolean],
-                default() {
-                    return false;
-                }
-            }
-        },
+        props: ["props"],
         data() {
             return {
                 now: new Date().toLocaleDateString().split('.').reverse().join('-'),//to compare current date with start
@@ -74,11 +62,12 @@
                         break;
                     }
                 }
-            },
-
+            }
         },
         emits: ["calendar"],
-
+        watch:{},
+        mounted(){
+        }
     }
 </script>
 <style>

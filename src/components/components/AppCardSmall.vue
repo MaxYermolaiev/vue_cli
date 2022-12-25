@@ -17,7 +17,6 @@
     }
 </script>
 <style scoped>
-
     h5 {
         cursor: pointer;
         text-transform: capitalize;
@@ -26,12 +25,10 @@
         opacity: 0.7;
     }
     img{
-
         height: 300px;
         object-fit: cover;
     }
     .card-body{
-
         text-align: center;
     }
     .card-item{

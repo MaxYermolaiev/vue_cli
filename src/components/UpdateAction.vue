@@ -28,9 +28,7 @@
                 <br/>
                 Select action priority
             </label>
-            <AppCalendar @calendar="calendar" :props="{
-             update_end_date:old_dates.end,
-             update_start_date:old_dates.start}"/>
+            <AppCalendar @calendar="calendar" :props="old_dates"/>
             <div class="inline_button">
                 <AppButton name="Update action" buttonStyle="btn-success" @action="update_action" :disabled="disabled"/>
                 <AppButton name="Back" buttonStyle="btn-secondary" @action="$router.go(-1)"/>
@@ -85,6 +83,7 @@
                 engine.request(`/user/get-action/${this.action}`, "GET")
                     .then(
                         (data) => {
+
                             this.old_dates = {
                                 start: new Date(data.action.start_date).toLocaleDateString(),
                                 end: new Date(data.action.end_date).toLocaleDateString()
@@ -99,7 +98,7 @@
         },
         data() {
             return {
-                old_dates: null,
+                old_dates: false,
                 user: this.$route.params.id,
                 action: this.$route.params.action,
                 action_data: null,
@@ -122,20 +121,13 @@
             if (!this.props.token || !this.props._id) {
                 this.$router.push('/');
             } else {
-                this.getAction()
+                this.getAction();
             }
-
         }
 
     }
 </script>
 <style>
-    .create-action {
-        max-width: 90%;
-        margin-left: 5%;
-        margin-right: 5%;
-    }
-
     textarea {
         width: 30rem;
         height: 12rem;

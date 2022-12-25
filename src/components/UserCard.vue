@@ -7,24 +7,25 @@
         <div class="col col-md-5 col-sm-11 align-self-start justify-content-center left_box">
             <img :src="user_data.img" alt="user picture">
             <div class="card-body">
-                <h3 class="card-title">{{(id===props._id)?`Your
+                <h5 class="card-title">{{(id===props._id)?`Your
                     page:${user_data.firstname} ${user_data.lastname}`:`${user_data.firstname}
-                    ${user_data.lastname}`}}</h3>
+                    ${user_data.lastname}`}}</h5>
                 <p class="card-text">{{`User phone: ${user_data.phone}`}}</p>
             </div>
         </div>
         <!--user actions block-->
         <div class="col col-md-5 col-sm-11 right_box">
-            <h2>Create actions</h2>
             <div class="create_button_group">
+                <h4>Create actions</h4>
                 <AppButton @action="$router.push(`/user/${id}/create-action`)" button-style="btn-success"
                            name="Create action" :disabled="(props._id&&props.token)?null:'disabled'"/>
-                <small v-if="!props._id&&!props.token" style="color:red">Only authorized users can assign action</small>
+                <small class="small-warning" v-if="!props._id&&!props.token">Only authorized users can assign action</small>
             </div>
 
             <hr/>
-            <h2>List of actions</h2>
+
             <div v-if="!user_actions.length" class="create_button_group">
+                <h5>List of actions:</h5>
                 No one action have been not created yet
             </div>
             <div v-else class="col">
@@ -114,14 +115,17 @@
     .user_box .right_box .create_button_group {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
     }
 
     img {
         width: 100%;
         border-radius: 10px;
+        max-height: 400px;
+        object-fit: cover;
     }
+
 
 
     /*

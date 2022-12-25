@@ -114,6 +114,11 @@
         max-width: 90%;
         margin-left: 5%;
         margin-right: 5%;
+        border:1px dotted;
+        box-shadow: #717171 2px 2px 2px;
+        padding-left: 3rem;
+        border-radius: 5px;
+        margin-top: 20px;
     }
 
     textarea {

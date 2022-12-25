@@ -4,28 +4,30 @@
     </div>
     <div v-else>
         <div class="button_card">
-            <h3>{{`Action - ${user_actions.title}`}}</h3>
-            <span :class="user_actions.completed?'small-success':'small-danger'">{{`Status - ${user_actions.completed?'closed':'active'}`}}</span><br>
-            <small style="white-space: pre-wrap">{{`Description - ${user_actions.description}`}}</small><br>
-            <div :class="user_actions.priority.toUpperCase()==='LOW'?'small-success':user_actions.priority.toUpperCase()==='MIDDLE'?'small-warning':'small-danger'">{{`Priority - ${user_actions.priority}`}}</div><br>
-            {{`Start - ${new Date(user_actions.start_date).toLocaleDateString()}`}}<br>
-            {{`End - ${new Date(user_actions.end_date).toLocaleDateString()}`}}<br>
+            <span style="font-weight: 700;font-size: 1.5rem">Action name:</span><span style="color: #787676">{{` ${user_actions.title}`}}</span><br>
+            <span class="span-bold">Status -</span><span :class="user_actions.completed?'small-success':'small-danger'">{{`${user_actions.completed?'closed':'active'}`}}</span><br>
+            <span class="span-bold">Description -</span><small>{{` ${user_actions.description}`}}</small><br>
+            <span class="span-bold">Created by -</span><small>{{` ${user_actions.creator_name}`}}</small><br>
+            <span class="span-bold">Priority -</span>
+            <span :class="user_actions.priority.toUpperCase()==='LOW'?'small-success':user_actions.priority.toUpperCase()==='MIDDLE'?'small-warning':'small-danger'">{{` ${user_actions.priority}`}}</span><br>
+            <span class="span-bold">Start date -</span>{{` ${new Date(user_actions.start_date).toLocaleDateString()}`}}<br>
+            <span class="span-bold">End date -</span>{{` ${new Date(user_actions.end_date).toLocaleDateString()}`}}<br>
             <div class="inline_button">
                 <AppButton @action="removeAction()"
                            button-style="btn-danger"
                            name="Remove action"
-                           :disabled="allowAction"
+                           :disabled="allowRemove"
                 />
                 <AppButton
                         @action="$router.push(`/user/${this.user_actions.executor}/update-action/${this.user_actions._id}`)"
                         button-style="btn-success"
                         name="Update action"
-                        :disabled="allowAction"/>
+                        :disabled="allowUpdate"/>
                 <br/>
                 <AppButton @action="completeActions"
                            button-style="btn-success"
                            :name="!user_actions.completed?'Complete action':'Action is complete'"
-                           :disabled="(user_actions.executor===user_credentials._id&&!user_actions.completed)?null:'disabled'"
+                           :disabled="allowComplete"
                 />
             </div>
         </div>
@@ -40,6 +42,9 @@
     import {engine} from "@/components/engine/engine";
     import AppLoadingMini from "@/components/components/AppLoadingMini";
     import AppInfoBox from "@/components/InfoBox";
+    //if creator === executor allow all action
+    //else creator only asign modify and remove
+    //executor only complete and remove completed
 
     export default {
         components: {AppInfoBox, AppLoadingMini, AppButton},
@@ -79,14 +84,29 @@
             }
         },
         computed:{
-          allowAction(){
-             return ((this.user_credentials._id===this.user_actions.assigned_by||this.user_credentials._id===this.user_actions.executor)&&!this.user_actions.completed)?null:'disabled';
+          allowComplete(){
+             return ((this.user_credentials._id===this.user_actions.executor||this.user_credentials._id===this.user_actions.assigned_by)&&!this.user_actions.completed)?null:'disabled';
           },
+            allowUpdate(){
+                if(this.user_actions.assigned_by===this.user_credentials._id&&!this.user_actions.completed){
+                    return null;
+                }else{
+                    return "disabled";
+                }
+            },
+            allowRemove(){
+
+                if(this.user_actions.assigned_by===this.user_credentials._id){
+                     return null;
+                }else if(this.user_actions.executor===this.user_credentials._id&&this.user_actions.completed){
+                    return null;
+                }else{
+                    return "disabled";
+                }
+            },
             warn_message(){
                 return (this.user_credentials._id!==this.user_actions.assigned_by||this.user_credentials._id!==this.user_actions.executor)&&!this.user_actions.completed;
             },
-        },
-        mounted() {
         }
     }
 </script>
@@ -95,9 +115,5 @@
         font-weight: bold;
         box-sizing: border-box;
         padding: 10px;
-    }
-    span{
-        font-size: 16px;
-        font-weight: bold;
     }
 </style>

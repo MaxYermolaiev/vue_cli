@@ -32,6 +32,9 @@ body {
 .small-warning{
     color: #ffaa18;
 }
+.span-bold{
+    font-weight: 700;
+}
 .small-success{
     color: #01cd0a;
 }
@@ -39,4 +42,14 @@ body {
 .col_component{
     display: flex;
     flex-direction: column;
+}
+.create-action {
+    max-width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border:1px dotted;
+    box-shadow: #717171 2px 2px 2px;
+    padding-left: 3rem;
+    border-radius: 5px;
+    margin-top: 20px;
 }
